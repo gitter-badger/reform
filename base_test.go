@@ -102,22 +102,36 @@ func TestReformSuite(t *testing.T) {
 	suite.Run(t, new(ReformSuite))
 }
 
-func (s *ReformSuite) SetupTest() {
-	pl := reform.NewPrintfLogger(s.T().Logf)
-	pl.LogTypes = true
-	DB.Logger = pl
+func setupTransaction(tb testing.TB, withLogger bool) *reform.TX {
+	if withLogger {
+		pl := reform.NewPrintfLogger(tb.Logf)
+		pl.LogTypes = true
+		DB.Logger = pl
+	}
 
-	var err error
-	s.q, err = DB.Begin()
-	s.Require().NoError(err)
+	tx, err := DB.Begin()
+	if err != nil {
+		tb.Fatalf("failed to begin transaction: %s", err)
+	}
+	return tx
+}
+
+func tearDownTransaction(tb testing.TB, tx *reform.TX) {
+	// some transactional tests rollback and nilify transaction
+	if tx != nil {
+		err := tx.Rollback()
+		if err != nil {
+			tb.Fatalf("failed to rollback transaction: %s", err)
+		}
+	}
+}
+
+func (s *ReformSuite) SetupTest() {
+	s.q = setupTransaction(s.T(), true)
 }
 
 func (s *ReformSuite) TearDownTest() {
-	// some transactional tests rollback and nilify transaction
-	if s.q != nil {
-		err := s.q.Rollback()
-		s.Require().NoError(err)
-	}
+	tearDownTransaction(s.T(), s.q)
 }
 
 func (s *ReformSuite) RestartTransaction() {

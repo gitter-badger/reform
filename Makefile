@@ -38,6 +38,7 @@ test_lib_pq:
 	env PGTZ=UTC psql -v ON_ERROR_STOP=1 -q -d reform-test < internal/test/sql/postgresql_data.sql
 	env PGTZ=UTC psql -v ON_ERROR_STOP=1 -q -d reform-test < internal/test/sql/postgresql_set.sql
 	go test -coverprofile=test_lib_pq.cover
+	go test -run='^$' -v -bench=Benchmark
 
 # currently broken due to pgx's timezone handling
 test_jackc_pgx: export REFORM_TEST_DRIVER = pgx
@@ -48,7 +49,8 @@ test_jackc_pgx:
 	env PGTZ=UTC psql -v ON_ERROR_STOP=1 -q -d reform-test < internal/test/sql/postgresql_init.sql
 	env PGTZ=UTC psql -v ON_ERROR_STOP=1 -q -d reform-test < internal/test/sql/data.sql
 	env PGTZ=UTC psql -v ON_ERROR_STOP=1 -q -d reform-test < internal/test/sql/postgresql_set.sql
-	go test
+	go test -coverprofile=test_jackc_pgx.cover
+	go test -run='^$' -v -bench=Benchmark
 
 test_mattn_go-sqlite3: export REFORM_TEST_DRIVER = sqlite3
 test_mattn_go-sqlite3: export REFORM_TEST_SOURCE = reform-test.sqlite3
@@ -58,6 +60,7 @@ test_mattn_go-sqlite3:
 	sqlite3 -bail reform-test.sqlite3 < internal/test/sql/data.sql
 	sqlite3 -bail reform-test.sqlite3 < internal/test/sql/sqlite3_set.sql
 	go test -coverprofile=test_mattn_go-sqlite3.cover
+	go test -run='^$' -v -bench=Benchmark
 
 test_go-sql-driver_mysql: export REFORM_TEST_DRIVER = mysql
 test_go-sql-driver_mysql: export REFORM_TEST_SOURCE = root@/reform-test?parseTime=true&strict=true&sql_notes=false&time_zone='America%2FNew_York'
@@ -68,6 +71,7 @@ test_go-sql-driver_mysql:
 	mysql -uroot reform-test < internal/test/sql/data.sql
 	mysql -uroot reform-test < internal/test/sql/mysql_set.sql
 	go test -coverprofile=test_go-sql-driver_mysql.cover
+	go test -run='^$' -v -bench=Benchmark
 
 # currently broken due to mymysql's timezone handling
 test_ziutek_mymysql: export REFORM_TEST_DRIVER = mymysql
@@ -78,7 +82,8 @@ test_ziutek_mymysql:
 	mysql -uroot reform-test < internal/test/sql/mysql_init.sql
 	mysql -uroot reform-test < internal/test/sql/data.sql
 	mysql -uroot reform-test < internal/test/sql/mysql_set.sql
-	go test
+	go test -coverprofile=ttest_ziutek_mymysql.cover
+	go test -run='^$' -v -bench=Benchmark
 
 parse:
 	# nothing, hack for our Travis-CI configuration
