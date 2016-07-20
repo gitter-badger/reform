@@ -88,9 +88,9 @@ test_denisenkom_go-mssqldb: export REFORM_TEST_SOURCE = server=$(REFORM_SQL_INST
 test_denisenkom_go-mssqldb:
 	-sqlcmd -b -I -S "$(REFORM_SQL_INSTANCE)" -Q "DROP DATABASE [reform-test];"
 	sqlcmd -b -I -S "$(REFORM_SQL_INSTANCE)" -Q "CREATE DATABASE [reform-test];"
-	sqlcmd -b -I -S "$(REFORM_SQL_INSTANCE)" -d "reform-test" < internal/test/sql/mssql_init.sql
-	sqlcmd -b -I -S "$(REFORM_SQL_INSTANCE)" -d "reform-test" < internal/test/sql/data.sql
-	sqlcmd -b -I -S "$(REFORM_SQL_INSTANCE)" -d "reform-test" < internal/test/sql/mssql_set.sql
+	sqlcmd -b -I -S "$(REFORM_SQL_INSTANCE)" -d "reform-test" -i internal/test/sql/mssql_init.sql
+	sqlcmd -b -I -S "$(REFORM_SQL_INSTANCE)" -d "reform-test" -i internal/test/sql/mssql_data.sql
+	sqlcmd -b -I -S "$(REFORM_SQL_INSTANCE)" -d "reform-test" -i internal/test/sql/mssql_set.sql
 	go test -coverprofile=test_denisenkom_go-mssqldb.cover
 
 parse:
