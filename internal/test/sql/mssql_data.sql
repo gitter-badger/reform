@@ -9,11 +9,11 @@ INSERT INTO people (id, name, email, created_at) VALUES (103, 'Elfrieda Abbott',
 
 SET IDENTITY_INSERT people OFF;
 
-INSERT INTO projects (id, name, start, [end]) VALUES ('baron', 'Vicious Baron', '2014-06-01', '2016-02-21');
-INSERT INTO projects (id, name, start, [end]) VALUES ('queen', 'Thirsty Queen', '2016-01-15', NULL);
-INSERT INTO projects (id, name, start, [end]) VALUES ('traveler', 'Kosher Traveler', '2016-02-01', NULL);
-INSERT INTO projects (id, name, start, [end]) VALUES ('lightfoot', 'Sweet Lightfoot', '2016-01-01', NULL);
-INSERT INTO projects (id, name, start, [end]) VALUES ('walker', 'Eager Walker', '2015-01-01', NULL);
+INSERT INTO projects (id, name, start, "end") VALUES ('baron', 'Vicious Baron', '2014-06-01', '2016-02-21');
+INSERT INTO projects (id, name, start, "end") VALUES ('queen', 'Thirsty Queen', '2016-01-15', NULL);
+INSERT INTO projects (id, name, start, "end") VALUES ('traveler', 'Kosher Traveler', '2016-02-01', NULL);
+INSERT INTO projects (id, name, start, "end") VALUES ('lightfoot', 'Sweet Lightfoot', '2016-01-01', NULL);
+INSERT INTO projects (id, name, start, "end") VALUES ('walker', 'Eager Walker', '2015-01-01', NULL);
 
 INSERT INTO person_project (project_id, person_id) VALUES ('baron', 101);
 INSERT INTO person_project (project_id, person_id) VALUES ('baron', 102);
